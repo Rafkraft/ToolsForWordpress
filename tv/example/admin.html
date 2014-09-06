@@ -1,0 +1,322 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<script src="../js/libs/jquery-2.1.1.min.js" ></script>
+	<script src="fetch.js" ></script>
+</head>
+
+<body onload="loadJSON();">
+	<p class="title">Interface de gestion</p>
+	<p class="subtitle title">Modifiez/ data.json</p> 
+	<div class="rows">
+
+		<div id="form">
+			<p class="parag">Entrez un id et cliquez sur "Rechercher", si un élément avec un id correspondant existe, les champs seront automatiquements remplis, modifiez les champs et/ou changez l'id pour créer un nouvel élément puis cliquez sur "Envoyer".<br>
+			Les données sont toujours éditables (dans la zone de texte en bas ou via le formulaire), et n'ont pas encore été sauvegardées, cliquez sur "Sauvegarder" pour envoyer toutes les données dans le fichier data.json</p>
+			<div id="spans">
+			<span class="button" id="get" onclick="getData();">Rechercher</span>
+			<span class="button" id="send" onclick="sendData();">Envoyer</span>
+			<span class="button" id="empty" onclick="emptyData();">Vider</span>
+			<span class="button" id="save" onclick="saveData();">Enregistrer</span>
+			</div>
+			<div class="row">
+				<p>ID</p>
+				<input id="id"></input>
+			</div>
+			<div class="row">
+				<p>nom</p>
+				<input id="nom"></input>
+			</div>
+			<div class="row">
+				<p>titre</p>
+				<input id="titre"></input>
+			</div>
+			<div class="row">
+				<p>type</p>
+				<input id="type"></input>
+			</div>
+			<div class="row">
+				<p>tags</p>
+				<input id="tags"></input>
+			</div>
+			<div class="row">
+				<p>description</p>
+				<input id="description"></input>
+			</div>
+			<div class="row">
+				<p>langue</p>
+				<input id="langue"></input>
+			</div>
+			<div class="row">
+				<p>date_parution</p>
+				<input id="date_parution"></input>
+			</div>
+			<div class="row">
+				<p>date_upload</p>
+				<input id="date_upload"></input>
+			</div>
+			<div class="row">
+				<p>url</p>
+				<input id="url"></input>
+			</div>
+			<div class="row">
+				<p>parts</p>
+				<input id="parts"></input>
+			</div>
+			<div class="row">
+				<p>plateforme</p>
+				<input id="plateforme"></input>
+			</div>
+			<div class="row">
+				<p>big</p>
+				<input id="big"></input>
+			</div>
+			<div class="row">
+				<p>img</p>
+				<input id="img"></input><br>
+			</div>
+		</div>
+		<div id="infos">
+			<p>Noms</p>
+			<div id="allNames" class="allnames"></div>
+			<p>Tags</p>
+			<div id="allTags" class="alltags"></div>
+		</div>
+	</div>
+	<div class="rows">
+		<div id="items">
+			<div id="Number"><p>Nombre d'éléments :</p><p id="lastRow"></p></div>
+			<table>
+				<tr class="tableheader">
+				  <th>ID</th>
+				  <th>Nom</th>
+				  <th>Titre</th>
+				  <th>date</th>
+				</tr>
+			</table> 
+		</div>
+		<textarea id="result">
+		</textarea>
+	</div>
+
+	<style>
+
+		body {
+		font-family: helvetica;
+		font-weight: 300;
+		}
+		.title {
+			width:500px;
+			font-size: 30px;
+			font-family: helvetica;
+			font-weight: 300;
+			margin:0;
+			margin-right: auto;
+			margin-left: auto;
+			margin-top:40px;
+			padding:0;
+			text-align: center;
+		}
+		.subtitle {
+			font-size: 20px;
+			padding:0;
+			margin-top: 10px;
+		}
+		#form {
+			text-align: center;
+			width:480px;
+			border-radius: 6px;
+			margin: 30px;
+			padding: 50px 10px 50px 10px;
+			display: inline-block;
+		}
+		#form .row {
+			text-align: left;
+			margin: 2px 0px 2px 0px;
+			background-color: #DDD;
+			height:40px;
+			display: table;
+			width:100%;
+		}
+		#form input {
+			vertical-align: top;
+			padding:11px 5px;
+			width:100%;
+			font-size: 14px;
+			display: inline-block;
+			display: table-cell;
+			outline: none;
+		}
+		#form .parag {
+			width:100%;
+			background-color: #FFF;
+			text-align: left;
+		}
+		#form p {
+			background-color: #6dabff;
+			vertical-align: top;
+			padding-top: 10px;
+			width:140px;
+			padding-left:14px;
+			display: table-cell;
+			color:#222;
+		}
+		#ajouternom, #ajoutertag, #ajouterpart {
+				cursor: pointer;
+		}
+		#titre {
+			vertical-align: top;
+		}
+		.button {
+			padding:10px;
+			font-size: 15px;
+			width:100px;
+			border: none;
+			color:#FFF;
+			text-align: center;
+			cursor: pointer;
+		}
+		#spans {
+			height:30px;
+			margin-top:25px;
+		}
+		#get {
+			background-color: #4692e3;
+		}
+		#send {
+			background-color: #40e357;
+		}
+		#empty {
+			background-color: #e34886;
+		}
+		#save {
+			background-color: #FFF;
+			border: 1px solid #222;
+			color: #222;
+		}
+		#get:hover {
+			background-color: #39C;
+		}
+		#send:hover {
+			background-color: #3C9;
+		}
+		#empty:hover {
+			background-color: #C39;
+		}
+		#get:active {
+			background-color: #6CF;
+		}
+		#send:active {
+			background-color: #6FC;
+		}
+		#empty:active {
+			background-color: #F6C;
+		}
+		#infos {
+			display: inline-block;
+			vertical-align: top;
+			width:600px;
+			margin: 30px;
+		}
+		#Number {
+			text-align: center;
+		}
+
+		#Number p {
+			display: inline-block;
+			text-align: center;
+			margin-left: 10px;
+		}
+		#lastRow {
+			background-color: #444;
+			color: #FFF;
+			padding: 5px;
+			width:20px;
+			border-radius: 4px;
+		}
+		.rows {
+			text-align: center;
+			width:100%;
+		}
+		#result {
+			height:800px;
+			margin: 20px;
+			border: 1px solid #333;
+			padding:10px;
+			width:600px;
+			overflow: auto;
+			display: inline-block;
+		}
+		#items {
+			max-height:800px;
+			width:700px;
+			overflow: auto;
+			margin-left: auto;
+			margin-right: auto;
+			display: inline-block;
+			vertical-align: top;
+		}
+		#items table {
+			background-color: #000;
+		}
+		#items table {
+			width:700px;
+			margin-top: 10px;	
+		}
+		#items table th {
+			padding:5px;
+			background-color: #068;
+			color:#FFF;
+			font-weight: 300;
+		}
+		#items table tr{
+			background-color: #DFF;
+			color:#000;
+		}
+		#items table td {
+			padding: 3px;
+		}
+		#allTags span {
+			cursor: pointer;
+			color: #FFF;
+			background-color: #127;
+			border-radius: 2px;
+			margin-left: 5px;
+			padding:7px 12px 7px 12px;
+			margin-bottom: 10px;
+			display: inline-block;
+			border-radius: 4px;
+			vertical-align: top;
+			text-align: center;
+			line-height: 14px;
+			font-size: 15px;
+		}
+		#allTags {
+			width: 600px;
+			text-align: left;
+			max-height: 400px;
+			overflow: auto;
+		}
+		#allNames span {
+			cursor: pointer;
+			color: #FFF;
+			background-color: #127;
+			border-radius: 2px;
+			margin-left: 5px;
+			padding:7px 12px 7px 12px;
+			margin-bottom: 10px;
+			display: inline-block;
+			border-radius: 4px;
+			vertical-align: top;
+			text-align: center;
+			line-height: 14px;
+			font-size: 15px;
+		}
+		#allNames {
+			width: 600px;
+			text-align: left;
+			max-height: 400px;
+			overflow: auto;
+		}
+	</style>
+</body>

@@ -1,0 +1,237 @@
+@font-face {
+    font-family: 'klavikabi';
+    src: url('../fonts/klavika/Klavika-BoldItalic.otf');
+}
+@font-face {
+    font-family: 'klavikami';
+    src: url('../fonts/klavika/Klavika-MediumItalic.otf');
+}
+@font-face {
+    font-family: 'klavikar';
+    src: url('../fonts/klavika/Klavika-Regular.otf');
+}
+@font-face {
+    font-family: 'klavikari';
+    src: url('../fonts/klavika/Klavika-RegularItalic.otf');
+}
+@font-face {
+    font-family: 'opensansr';
+    src: url('../fonts/OpenSans-Regular.ttf');
+}
+.scroll {
+    background-color: rgba(255,255,255,0.95);
+    border:1px solid #000;
+    padding-top:40px;
+    position: relative;
+    margin-top: 50px;
+}
+.scroll p, .scroll h3, .scroll h2, .scroll img {
+	padding-left:30px;
+	padding-right:30px;
+}
+#content h3 {
+    width:90%;
+    max-width: 800px;
+    margin:0px auto;
+    margin-top:20px;
+    padding-left: 0%;
+	font-family: klavikami;
+	font-size: 30px;
+    text-align: center;
+    color: #161760;
+    text-shadow:0px 0px 1px #FFF,1px 1px 1px #FFF;
+}
+.scroll >h2, .scroll >div h2 {
+	padding-top:40px;
+	padding-bottom:40px;
+	text-align: left;
+    font-family: klavikar;
+    font-size: 26px;
+}
+.scroll .conclusion {
+    font-family: klavikami;
+    font-size: 32px;
+    color: #161760;
+}
+.scroll p {
+	text-align: justify;
+	font-family: helvetica;
+	font-weight: 300;
+	line-height: 22px;
+}
+.scroll p b {
+	color:#000;
+}
+.scroll p .word {
+    color:#237;
+}
+.scroll iframe {
+	padding-top:40px;
+	padding-bottom:40px;
+}
+.scroll .imgdiv  {
+    width: 100%;
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+.scroll .imgdiv  img{
+    max-width: 70%;
+    height:auto;
+}
+.scroll .imgdiv  iframe{
+    
+}
+.scroll .legend {
+    text-align: center;
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
+}
+.scroll ul {
+	font-family: helvetica;
+	font-weight: 300;
+	list-style: none;
+	line-height: 20px;
+	padding: 20px;
+	padding-top: 80px;
+}
+.scroll ul li {
+	padding: 05px;
+}
+.scroll ul li .author {
+	color: #359;
+}
+.scroll ul li .date {
+	color: #84B;
+}
+.scroll ul li a {
+	color: #111;
+	padding: 0px;
+	text-decoration: underline;
+}
+.citation {
+	font-size: 32px;
+	font-family: klavikari;
+	width: 500px;
+	float: left;
+	padding:40px;
+	color:#45B;
+	line-height: 32px;
+}
+.citation h2 {
+    font-size: 16px;
+    font-weight: 200;
+    color:#000;
+    padding:0;
+    padding-top:10px;
+    margin:0;
+    font-family: helvetica;
+}
+h3, h2 {
+
+}
+
+
+/*   RESUME   */
+.resume {
+   width:90%;
+   max-width: 800px;
+   margin:0px auto;
+}
+.resume li  {
+    margin:10px 0px;
+    border-bottom: 1px solid #222;
+}
+.resume li span {
+    margin:0px 10px;
+}
+.resume li .date {
+    text-decoration: underline;
+    color:#622b8d;
+}
+.resume .AA11 {
+    border-left: 8px solid #5589ff;
+}
+.resume .UA93 {
+    border-left: 8px solid #ff1304;
+}
+.resume .UA175 {
+    border-left: 8px solid #3bd724;
+}
+.resume .AA77 {
+    border-left: 8px solid #f90b89;
+}
+.resume .WTC {
+    border-left: 8px solid #444;
+}
+.resume .red {
+    background-color: rgba(255,100,100,0.9);
+}
+/*   RESUME SUMMARY   */
+.resumeSummary {
+    width:90%;
+    max-width: 800px;
+    margin:0px auto;
+    display: table;
+}
+.resumeSummary li{
+    margin:10px;
+    display: table-cell;
+    border: 1px solid #222;
+}
+.resumeSummary li:hover{
+    background-color: rgba(0,0,0,0.3);
+}
+.resumeSummary li>div{
+    margin:10px;
+    padding-left: 10px;
+}
+.resumeSummary .AA11 {
+    border-left: 20px solid #5589ff;
+}
+.resumeSummary .UA93 {
+    border-left: 20px solid #ff1304;
+}
+.resumeSummary .UA175 {
+    border-left: 20px solid #3bd724;
+}
+.resumeSummary .AA77 {
+    border-left: 20px solid #f90b89;
+}
+
+.citations p{
+    font-size: 17px;
+    font-family: klavikari;
+    width: 80%;
+    padding:40px;
+    padding-bottom: 10px;
+    color:#000;
+    line-height: 24px;
+}
+.citations span{
+    font-size: 16px;
+    font-family: klavikari;
+    width: 80%;
+    padding-top: 60px;
+    color:#000;
+    line-height: 24px;
+}
+
+.conclusionPlaceholder {
+    width:800px;
+    max-width: 90%;
+    margin: 0px auto;
+}
+
+.conclusionPlaceholder span{
+    display: block;
+    margin: 40px 0px;
+    border-bottom: 1px solid #000;
+    padding-bottom: 10px;
+}
+
+.hashtag {
+    font-family: klavikari;
+    font-size: 24px;
+}

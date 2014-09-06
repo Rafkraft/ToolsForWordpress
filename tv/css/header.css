@@ -1,0 +1,74 @@
+@font-face {
+    font-family: 'klavikami';
+    src: url('../fonts/Klavika-MediumItalic.otf');
+}
+@font-face {
+    font-family: 'klavikal';
+    src: url('../fonts/Klavika-Light.otf');
+}
+
+#header {
+	text-align: center;
+	padding-top:0px;
+	width:95%;
+	max-width: 1200px;
+	margin-right: auto;
+	margin-left: auto;
+	margin-bottom: 20px;
+}
+#header p {
+	font-family: klavikami;
+	display: block;
+	width:500px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+	font-size: 60px;
+	padding-top: 60px;
+	color: #FFF;
+	text-shadow: -1px 1px 1px #000,
+				-2px 2px 1px #000,
+				-3px 3px 1px #000,
+				-4px 4px 1px #000;
+}
+#header h1 {
+	font-family: klavikal;
+	width:500px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+	font-size: 20px;
+	color: #FFF;
+	padding:10px 0px;
+	text-shadow:-1px 1px 1px #000,
+				-2px 2px 1px #000;
+}
+#header ul {
+	margin-top: 20px;
+	width:500px;
+	margin-left: auto;
+	margin-right: auto;
+}
+#header ul li {
+	display: inline-block;
+	background-color: rgba(255,255,255,0.4);
+	border-radius: 9px;
+	padding:3px 10px;
+	margin-left: 20px;
+	margin-right: 20px;
+	color:#000;
+	font-size: 16px;
+	font-family: klavikal;
+}
+#header ul li:hover {
+	background-color: rgba(255,255,255,0.6)
+}
+#header ul li:active {
+	background-color: rgba(255,255,255,0.9)
+}
+.social {
+	position: absolute;
+	top:20px;
+	right:20px;
+
+}

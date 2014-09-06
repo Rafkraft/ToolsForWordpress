@@ -1,0 +1,35 @@
+
+.about  {
+    text-align: left;
+    max-width: 600px;
+    width:50%;
+    color:#222;
+    padding:20px;
+    font-size: 16px;
+    font-family: helvetica;
+    font-weight: 300;
+    margin-right: auto;
+    margin-left: auto;
+    line-height: 18px;
+    margin-top: 40px;
+}
+.list{
+    text-align: left;
+    width:50%;
+    font-size: 16px;
+    font-family: helvetica;
+    font-weight: 300;
+    margin-right: auto;
+    margin-left: auto;
+    line-height: 18px;
+    list-style: disc;
+    padding-bottom: 40px;
+}
+.list >li>ul {
+    list-style: disc;
+    margin-left:20px;
+    margin-bottom: 10px;
+}
+.list >li>ul>li {
+    padding-left:20px;
+}

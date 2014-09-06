@@ -1,0 +1,436 @@
+<html>
+<head>
+    <title>Sport extrêmes</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+
+
+    <script src="js/libs/jquery-2.1.1.min.js" ></script>
+    <script src="js/libs/underscore.js" ></script>
+    <script src="js/libs/backbone-1.1.2.js" ></script>
+    <script src="js/libs/marionette.min-2.1.0.js" ></script>
+
+    <script src="js/wordpressInfosViews.js" ></script>
+    <script src="js/commentsViews.js" ></script>
+    <!--<script src="js/social.js" ></script>-->
+
+    <link href="css/reset.css" rel="stylesheet" type="text/css">
+    <link href="css/content.css" rel="stylesheet" type="text/css">
+    <link href="css/body.css" rel="stylesheet" type="text/css">
+    <link href="css/text.css" rel="stylesheet" type="text/css">
+    <link href="css/wordpressInfos.css" rel="stylesheet" type="text/css">
+    <link href="css/word.css" rel="stylesheet" type="text/css">
+    <link href="css/comments.css" rel="stylesheet" type="text/css">
+    <link href="css/nav.css" rel="stylesheet" type="text/css">
+    <link href="css/arrows.css" rel="stylesheet" type="text/css">
+    <link href="css/social.css" rel="stylesheet" type="text/css">
+    <link href="css/menu.css" rel="stylesheet" type="text/css">
+
+
+<script>
+
+$(document).ready(function(){
+
+    window.config=[
+                {
+                    id:100,
+                    name:"snowboard",
+                    completeName:"Le snowboard",
+                    URL:"articles/snowboard.txt",
+                    background:true,
+                    comments:"21",
+                    pageID:"21"
+                },
+                {
+                    id:101,
+                    name:"ski",
+                    completeName:"Le ski",
+                    URL:"articles/ski.txt",
+                    background:true,
+                    comments:"23",
+                    pageID:"23"
+                },
+                {
+                    id:102,
+                    name:"plancheavoile",
+                    completeName:"La planche à voile",
+                    URL:"articles/plancheavoile.txt",
+                    background:true,
+                    comments:"25",
+                    pageID:"25"
+                }
+            ];
+
+    // ======================================
+    //  ROUTER
+    // ======================================
+
+    var Router = Backbone.Router.extend({
+        initialize: function(){ 
+            Backbone.history.start();
+            console.log("ROUTER OK");
+            App.nav.show(new NavigationView());
+            if(window.wordpressInfos.userLogged){
+                App.wordpressInfos.show(new WordpressInfosView({template:"#wordpressInfosTemplate"}));
+            }else{
+                App.wordpressInfos.show(new WordpressInfosView({template:"#wordpressFormTemplate"}));
+            }
+        },
+        routes: {
+            "page/:query":"page",
+            "page/:query/comments":"comments",
+            "/*":"home"
+        },
+        home:function(){
+            window.location = window.location.origin+window.location.pathname+"#page/snowboard";
+        },
+        page:function(query){
+            console.log(window.article);
+            var model = window.articles.where({ name: query });
+            if(model.length==0){
+                console.log(window.config)
+            }
+            window.currentId= model[0].get('id');
+            App.content.show(
+                new ArticleView({model: model[0]})
+            )
+        },
+        comments:function(query){
+            var model = window.articles.where({ name: query });
+            window.currentId= model[0].get('id');
+            if(window.wordpressInfos.userLogged){
+                App.content.show(
+                    new CommentsLoggedView({model: model[0]})
+                )
+            }else{
+                App.content.show(
+                    new CommentsNotLoggedView({model: model[0]})
+                )
+            }
+            
+        }
+    })
+
+    // ======================================
+    //  COLLECTION
+    // ======================================
+
+        window.Articles= Backbone.Collection.extend({});
+        window.articles = new window.Articles;
+
+    // ======================================
+    //  APP OBJECT
+    // ======================================
+
+    var App = new Backbone.Marionette.Application();
+    App.addRegions({
+        header: '#header',
+        wordpressInfos: '#wordpressInfos',      //title + subtitle region
+        nav: '#nav',            // navigation bar region 
+        content: '#content',
+        comments: '#coomments',    // items region
+    });
+
+    App.on("start", function(options){
+        new Router();
+        resumeHover();
+        arrows();
+    });
+
+    // ======================================
+    //  VIEWS
+    // ======================================
+
+    //Article view
+    var ArticleView = Backbone.Marionette.ItemView.extend({
+        template: "#articleTemplate",
+        events:{
+            "mouseenter .word":"word",
+            "mouseleave .word":"wordOff",
+            "click .demo-icon-twitter":"twitterLink",
+            "click .demo-icon-facebook":"facebookLink"
+        },
+        initialize:function(options){
+            this.templateHelpers={};
+            this.templateHelpers.data=this.model.get('data');
+        },
+        word:function(e){
+            $('#word').css("display","block")
+            $('#word').css("opacity",1)
+            var el = e.currentTarget;
+            var ww = $( window ).width();
+            
+            if($(el).offset().left>ww/2){
+                elw=$(el).offset().left-260;
+            }else{
+                elw=$(el).offset().left+20;
+            }
+
+            $('#word').css('left',elw);
+            $('#word').css('top',$(el).offset().top-220);
+            var word=$(e.currentTarget).attr('value');
+            var name = wordsLibrary[word].name;
+            var content = wordsLibrary[word].content;
+            var wikipedia = '';
+            if (wordsLibrary[word].wikipedia){
+                var wikipedia = '<a target="_blank" href="'+wordsLibrary[word].wikipedia+'">Wikipedia</a>';
+                
+            }
+
+            $('#word').html('<p>'+name+'</p>'+'<p>'+content+'</p>'+wikipedia)
+        },
+        wordOff:function(){
+            setTimeout(function() {
+                if($('#word').is(":hover")){
+                    console.log('hovered');
+                }
+                $('#word').css("display","none");
+                $('#word').css("opacity",0);
+            }, 1000);
+        },
+        twitterLink:function(){
+            var prop = $(this.el).find('h3');
+            prop = prop[0].innerText;
+            var phrase =this.model.get('completeName');
+            phrase = encodeURIComponent(phrase);
+            var original_referer = encodeURIComponent("swagg");
+            var link = "https://twitter.com/share?original_referer="+encodeURIComponent(window.location.href)+"&text="+phrase;
+            window.open(link);
+
+
+        },
+        facebookLink:function(){
+            var phrase =this.model.get('completeName')+" "+window.location.href;
+            phrase = encodeURIComponent(phrase);
+            var link = "http://www.facebook.com/share.php?u=url&t="+phrase;
+            //window.open(link);
+        },
+        onRender:function(){
+            //NAV
+            var id = this.model.get('id');
+            document.title = this.model.get('completeName')
+            $("#nav li").removeClass();
+            $("#nav").find('li[value='+id+']').addClass('active');
+
+            $("#charging").css('display','none');
+
+
+            //Comments button
+            $('body .commentsLink').remove();
+            $("body").append('<span class="commentsLink"><a href="'+window.location+'/comments">Commentaires</a></span>')
+
+            resumeHover();
+            arrows();
+            addArrows();
+        }
+    });
+
+
+    //Navigation view
+    var NavigationView = Backbone.Marionette.ItemView.extend({
+        template: "#navigationTemplate",
+        initialize:function(options){
+            this.templateHelpers={};
+            var list ="";
+            _.each(window.config,function(value,index){
+                list+="<li value='"+value.id+"'><a href='"+window.location.origin+window.location.pathname+"#page/"+value.name+"'>"+value.completeName+"</a></li>";
+            });
+            this.templateHelpers.data= list;
+        },
+        onRender:function(){
+
+        }
+    });
+
+
+    // ======================================
+    //  AJAX AND WORDPRESS LOADS
+    // ======================================
+
+    //Get words
+    $.ajax({
+        url : "words.json",
+        dataType: "text",
+        success : function (data) {
+            window.wordsLibrary = jQuery.parseJSON(data);
+        }
+    });
+
+    // Load collections
+    function loadCollection(){
+        _.each(window.config,function(value,index){
+            var Model = Backbone.Model.extend({});
+            var model = new Model;
+
+            //Load model propreties
+            $.ajax({
+                url : value.URL,
+                dataType: "text",
+                success : function (data) {
+                    model.set("data",data);
+                    model.set("id",value.id);
+                    model.set("name",value.name);
+                    model.set("completeName",value.completeName);
+                    model.set("url",value.URL);
+                    model.set("pageID",value.pageID);
+                    model.set("background",value.background);
+
+                    //Load comments
+                    $.ajax({
+                        url : "../?p="+value.comments,
+                        dataType: "text",
+                        success : function (data) {
+                            data;
+                            var comments = $(data).find('.comment-list');
+                            model.set("comments",comments[0].innerHTML)
+                            window.articles.add(model);
+                            if(window.articles.length == window.config.length){
+                                App.start();
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    };
+    //Get infos from wordpress
+    function wordpressInfos(){
+        return $.ajax({
+            url : "../infos.php",
+            dataType: "text",
+            success : function (data) {
+                data = $.parseHTML(data);
+                $('#hidden').html(data);   
+                window['wordpressInfos'] = jQuery.parseJSON($('#infos').html());
+                return window['wordpressInfos'];
+            }
+        });
+    }
+    wordpressInfos().then(function(){
+        loadCollection();
+    });
+
+});
+
+//Ajouter les flèches
+function addArrows(){
+    var leftModel = window.articles.where({ id: window.currentId-1 });
+    var rightModel = window.articles.where({ id: window.currentId+1 });
+    $('body >.arrow').remove();
+    if(leftModel.length){
+        var leftLocation= window.location.origin+window.location.pathname+"#page/"+leftModel[0].get('name');
+        $('body').append('<span class="arrow leftArrow"><a href="'+leftLocation+'" ><img src="imgs/arrowRight.png"/></a></span>');
+    }
+    if(rightModel.length){
+    var rightLocation= window.location.origin+window.location.pathname+"#page/"+rightModel[0].get('name');
+        $('body').append('<span class="arrow rightArrow"><a href="'+rightLocation+'" ><img src="imgs/arrowLeft.png"/></a></span>');
+    }
+}
+
+
+// Parcours en flèches
+function arrows(){
+    $("body").keydown(function(e) {
+        if(e.keyCode == 37) { // left
+            var id = window.currentId-1;
+            var newModel = window.articles.where({ id: id });
+            if(newModel.length){
+                window.location=$('.leftArrow a').attr('href');
+            }
+        }else if(e.keyCode == 39) { // left
+            var id = window.currentId+1;
+            var newModel = window.articles.where({ id: id });
+            if(newModel.length){
+                window.location=$('.rightArrow a').attr('href');
+            }
+        }else if(e.keyCode == 40) { // Bottom
+            var pass;
+        }
+    });
+};
+
+function resumeHover(){
+    $('.resumeSummary li').mouseover(function(e){
+        var el = e.currentTarget;
+        var attr = $(el).attr('value');
+        $(".resume ."+attr).css('background-color',"rgba(0,0,0,0.3)");
+    })
+    $('.resumeSummary li').mouseleave(function(){
+        $(".resume li").removeAttr('style');
+    });
+};
+
+</script>
+</head>
+<body>
+    <div id="header"></div>
+    
+    <div id="nav"></div>
+    <div id="content"></div>
+    <div id="comments"></div>
+    <div id="word"></div>
+    <div id="menu">
+        <div id="wordpressInfos"></div>
+        <a href="../rdp/">Revue de presse</a>
+        <a href="../tv_sport/">TV</a>
+    </div>
+
+    <div id="hidden" style="display:none"></div>
+    <div id="iframe" style="display:none"></div>
+    <div id="charging"><h5>LOADING</h5></div>
+
+<!-- Article template-->
+<script type="text/template" id="articleTemplate">
+        <%=data%>
+</script>
+
+<!-- Comments template-->
+<script type="text/template" id="commentsLoggedTemplate">
+    <div id="commentsSection">
+        <h1>Commentaires</h1>
+        <div id="form">
+            <textarea id="commentContent"/>
+            <label>En réponse à</label><input id="inResponse"/>
+            <span id="sendComment">Envoyer</span>
+        </div>
+        <hr>
+        <%=data%>
+    </div>
+</script>
+
+<!-- Comments not logged template-->
+<script type="text/template" id="commentsNotLoggedTemplate">
+    <div id="commentsSection">
+        <h1>Commentaires</h1>
+        <div id="notLogged">
+            Vous devez être connecté pour commenter
+        </div>
+        <%=data%>
+    </div>
+</script>
+
+<!-- Wordpress Infos template-->
+<script type="text/template" id="wordpressInfosTemplate">
+<div id="logBox"><h4><%=pseudo%> </h4></div>
+<span id="disconnect">Se déconnecter</span>
+</script>
+
+<!-- Wordpress Form template-->
+<script type="text/template" id="wordpressFormTemplate">
+    <div id="logBox">Vous n&rsquo;êtes pas connecté</div>
+    <input id="pseudoConnect">
+    <input type="password" id="passwordConnect">
+    <span id="sendButton">Envoyer</span>
+</script>
+
+
+<!-- Navigation template-->
+<script type="text/template" id="navigationTemplate">
+    <ul id="navigationList">
+        <%=data%>
+    </ul>
+</script>
+
+</body>
+</html>

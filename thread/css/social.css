@@ -1,0 +1,36 @@
+.demo-icon-twitter img {
+    position: absolute;
+    right:10px;
+    top:-35px;
+    padding:4px 6px;
+    border-radius: 4px;
+    background-color: #4099FF;
+    width:20px;
+    height:auto;
+    -webkit-transition-timing-function: ease-out;
+    -webkit-transition-duration: 150ms;
+    -moz-transition-timing-function: ease-out;
+    -moz-transition-duration: 150ms;
+}
+.demo-icon-twitter img:hover {
+    background-color: #90DDFF;
+}
+
+.demo-icon-facebook img {
+    opacity:0;
+    right:10px;
+    top:-35px;
+    position: absolute;
+    width:20px;
+    height:auto;
+    padding:4px 6px;
+    border-radius: 4px;
+    background-color: #3b5998;
+    -webkit-transition-timing-function: ease-out;
+    -webkit-transition-duration: 150ms;
+    -moz-transition-timing-function: ease-out;
+    -moz-transition-duration: 150ms;
+}
+.demo-icon-facebook img:hover {
+    background-color: #5480dd;
+}

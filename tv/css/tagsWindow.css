@@ -1,0 +1,18 @@
+#tagsWindow {
+    width:210px;
+    border-radius: 0px;
+    z-index: 4;
+    position: absolute;
+    text-align: center;
+    opacity:1;
+}
+#tagsWindow span {
+    font-family: klavikali;
+    color:#FFF;
+    background-color: #56D;
+    border-radius: 0px;
+    margin: 5px 3px 5px 3px;
+    padding:5px 2px 5px 2px;
+    display: inline-block;
+    cursor:pointer;
+}

@@ -1,0 +1,137 @@
+{
+    "fbi":{   
+        "name":"Federal Bureau of Investigation",
+        "content":"Le FBI est le principal service de renseignement intérieur fédéral aux États-Unis, et l'organisme d'enquête majeur du gouvernement américain. Ses attributions incluent l'antiterrorisme, le contre-espionnage, le crime informatique et la médecine légale.",
+        "wikipedia":"http://fr.wikipedia.org/wiki/Federal_Bureau_of_Investigation"
+    },
+    "cia":{   
+        "name":"Central Intelligence Agency",
+        "content":"La CIA est une des principale agence de renseignement extérieure des États-Unis. Elle est chargée de l'acquisition du renseignement (notamment par l'espionnage) et de la plupart des opérations clandestines effectuées hors du pays. Elle a le statut juridique d'agence indépendante du gouvernement des États-Unis",
+        "wikipedia":"http://fr.wikipedia.org/wiki/Central_Intelligence_Agency"
+    },
+    "nsa":{   
+        "name":"National Security Agency",
+        "content":"La NSA est l'organisme gouvernemental chargé de diriger les activités de cryptologie du gouvernement américain il est en charge du renseignement d'origine électronique/informatique et sécurité des systèmes de communications et de traitement des données.",
+        "wikipedia":"http://fr.wikipedia.org/wiki/NSA"
+    },
+    "norad":{   
+        "name":"North American Aerospace Defense Command",
+        "content":"Le NORAD est une organisation américano–canadienne dont la mission est la surveillance de l'espace aérien nord-américain, elle a été particulièrement mise en cause après le 11 septembre pour son incapacité à avoir prévenu les attaques.",
+        "wikipedia":"http://fr.wikipedia.org/wiki/NORAD"
+    },
+    "peterlance":{   
+        "name":"Peter Lance",
+        "content":"Peter Lance est un célèbre auteur et journaliste américain, 5 fois récompensé de l'Emmy Award \"News & Documentary\", il est à l'origine de plusieurs scandales impliquant la FAA, le pentagone, et de nombreuses révélations sur le 11 septembre et Al-Qaïda",
+        "wikipedia":"http://en.wikipedia.org/wiki/Peter_Lance"
+    },
+    "whitehouse":{   
+        "name":"Le gouvernement américain ",
+        "content":"Le terme \"Maison Blanche\" sera employé pour désigner par métonymie la branche exécutive du gouvernement américain, à savoir le président, vice-président ainsi que son cabinet, qui comporte notament le secrétaire d'état (affaires étrangères), le secrétaire à la défense et le procureur général (justice)",
+        "wikipedia":"http://fr.wikipedia.org/wiki/NORAD"
+    },
+    "ins":{   
+        "name":"Immigration and Naturalization Service",
+        "content":"L'INS est une agence gouvernementale appartenant au département de la justice chargée entre autre des questions de naturalisation, résidence permanente et de droits d'asile. L'ensemble de ses prérogatives a été transféré au département de la Sécurité intérieure des États-Unis (Department of Homeland Security) dans le cadre du remaniement de la politique de sécurité intérieure mené par l'administration Bush après les attaques",
+        "wikipedia":"http://en.wikipedia.org/wiki/Immigration_and_Naturalization_Service"
+    },
+    "ntsb":{
+        "name":"National Transportation Safety Board",
+        "content":"Le NTSB est une agence indépendante du gouvernement des États-Unis, qui est responsable des enquêtes sur les accidents aéronautiques, routiers, maritimes, ferroviaires et ceux concernant les pipelines (gazoducs et oléoducs).",
+        "wikipedia":"http://fr.wikipedia.org/wiki/NTSB"
+    },
+    "thomashkean":{
+        "name":"Thomas H Kean",
+        "content":"Thomas Howard Kean est membre du parti républicain, il a été gouverneur du New-Jersey de 1982 à 1990. Il est surtout connu pour avoir été nommé par Georges Bush président de la commission d'enquête sur les attaques du 11 septembre à la quite des attaques",
+        "wikipedia":"http://en.wikipedia.org/wiki/Thomas_Kean"
+    },
+    "leehhamilton":{
+        "name":"Lee Herbert Hamilton",
+        "content":"Lee Herbert Hamilton est membre du parti démocrate, actuellement membre du conseil du département de la Sécurité intérieure. Surtout connu pour avoir été nommé par Georges Bush vice-président de la commission d'enquête sur les attaques du 11 septembre à la quite des attaques",
+        "wikipedia":"http://en.wikipedia.org/wiki/Lee_H._Hamilton"
+    },
+    "johnlehman":{
+        "name":"John Lehman",
+        "content":"John Lehman est un banquier et écrivain américain, il a été Secrétaire à la Marine des États-Unis (Secretary of the Navy) sous l'administration Reagan. Il a été nommé membre de la commission d'enquête sur les attentats du 11 septembre.",
+        "wikipedia":"http://en.wikipedia.org/wiki/John_Lehman"
+    },
+    "maxcleland":{
+        "name":"Max Cleland",
+        "content":"Max Cleland est un politique américain, membre du parti démocrate, vétaran de la guerre du Vietnam.",
+        "wikipedia":"http://en.wikipedia.org/wiki/Max_Cleland"
+    },
+    "condoleezzarice":{
+        "name":"Condoleezza Rice",
+        "content":"Condoleezza Rice est une femme politique américaine, seconde secrétaire d'état de l'administration Bush après Colin Powell.",
+        "wikipedia":"http://en.wikipedia.org/wiki/Condoleezza_Rice"
+    },
+    "robertmueller":{
+        "name":"Robert Mueller",
+        "content":"Sixième directeur du FBI, en fonction du 4 septembre 2001-4 septembre 2013.",
+        "wikipedia":"http://en.wikipedia.org/wiki/Robert_Mueller"
+    },
+    "georgeswbush":{
+        "name":"Georges W Bush",
+        "content":"43ème président des États-Unis d'Amérique, en fonction du 20 janvier 2001 au 20 janvier 2009. Sa présidence est marquée par les attaques du 11 septembre 2001 et les deux guerres en Irak et Afghanistan qui ont suivi.",
+        "wikipedia":"http://fr.wikipedia.org/wiki/George_W._Bush"
+    },
+    "davidshippers":{
+        "name":"David Schippers",
+        "content":"David Schippers est un célèbre avocat américain, connu pour avoir été nommé chef du House Judiciary Committee en avril 1998, qui enquêtait sur l'affaire de moeurs entre le président Clinton et la stagiaire Monica Lewinsky.",
+        "wikipedia":"http://fr.wikipedia.org/wiki/George_W._Bush"
+    },
+    "sibeledmonds":{
+        "name":"Sibel Edmonds",
+        "content":"Sibel Deniz Edmonds est une ancienne traductrice du FBI et fondatrice de la National Security Whistleblowers Coalition (NSWBC). Pendant sa collaboration au FBI, elle découvrit et dénonça des actes d’espionnage et de rétention d’informations susceptibles de mettre en danger la Sécurité Nationale des États-Unis. Elle est actuellement rédactrice en chef du site de journalisme indépendant <a href='http://www.boilingfrogspost.com/'>boilingfrogspost.com</a>",
+        "wikipedia":"http://fr.wikipedia.org/wiki/Sibel_Edmonds"
+    },
+    "susanlindauer":{
+        "name":"Susan Lindauer",
+        "content":"Susan Lindauer est une militante pacifiste américaine. Seconde personne à avoir été poursuivie et enfermée en vertue du Patriot Act. Elle travaillait pour la CIA en 2001, en tant que négociatrice assurant la liaison entre le gouvernement américain et la Lybie et l'Irak. Connue pour les révélations qu'elle fait dans son livre \"Extrême préjudice\" écrit en prison, paru aux États-Unis en 2010 et en Français en 2013",
+        "wikipedia":"http://en.wikipedia.org/wiki/Susan_Lindauer"
+    },
+    "911truth":{
+        "name":"911 Truth Movement",
+        "content":"le 911 Truth Movement est la principale association américaine militant pour une nouvelle en enquête et le rétablissement de la vérité sur les attentats du 11 septembre.",
+        "wikipedia":"http://fr.wikipedia.org/wiki/9/11_Truth_Movement"
+    },
+    "saddamhussein":{
+        "name":"Saddam Hussein",
+        "content":"Saddam Hussein est le cinquième président de la république d'Irak, en fonction du 16 juillet 1979 au 9 avril 2003.",
+        "wikipedia":"http://fr.wikipedia.org/wiki/Saddam_Hussein"
+    },
+    "dickcheney":{
+        "name":"Dick Cheney",
+        "content":"Dick Cheney a été le 46e vice-président des États-Unis aux côtés du président George W. Bush, du 20 janvier 2001 au 20 janvier 2009.",
+        "wikipedia":"http://fr.wikipedia.org/wiki/Dick_Cheney"
+    },
+    "donaldrumsfeld":{
+        "name":"Donald Rumsfeld",
+        "content":"Donald Rumsfeld a été 21e secrétaire à la Défense des États-Unis, de 2001 à décembre 2006.",
+        "wikipedia":"http://fr.wikipedia.org/wiki/Donald_Rumsfeld"
+    },
+    "mohammedatta":{
+        "name":"Mohammed Atta",
+        "content":"Supposé coordonnateur des opérations le 11 septembre, Il aurait embarqué à bord du vol AA11 qui s'écrasa sur la tour nord le 11 septembre.",
+        "wikipedia":"http://fr.wikipedia.org/wiki/Mohammed_Atta"
+    },
+    "khalidsheikhmohammed":{
+        "name":"Khalid Sheikh Mohammed",
+        "content":"Chef militaire et responsable du « département des opérations extérieures » d'Al-Qaida jusqu'à son arrestation en 2003, cerveau présumé des opération du 11 septembre, son procès se tient à Guantanamo depuis le 5 mai 2012.",
+        "wikipedia":"http://fr.wikipedia.org/wiki/Khalid_Cheikh_Mohammed"
+    },
+    "nist":{
+        "name":"National Institute of Standards and Technology",
+        "content":"Le NIST est une agence du Département du Commerce des États-Unis. Son but est de promouvoir l'économie en développant des technologies, la métrologie et des standards de concert avec l'industrie. Cette agence a pris la suite en 1988 du National Bureau of Standards, fondé en 1901 avec substantiellement les mêmes missions..",
+        "wikipedia":"http://fr.wikipedia.org/wiki/National_Institute_of_Standards_and_Technology"
+    },
+    "ntsb":{
+        "name":"National Transportation Safety Board",
+        "content":"Agence d'investigation indépendante du gouvernement des États-Unis chargée d'enquêter sur les accidents de transport de grande ampleur.",
+        "wikipedia":"http://en.wikipedia.org/wiki/National_Transportation_Safety_Board"
+    },
+    "asce":{
+        "name":"American Society of Civil Engineers",
+        "content":"Organisation professionnelle d'ingénieurs civils américains.",
+        "wikipedia":"http://fr.wikipedia.org/wiki/American_Society_of_Civil_Engineers"
+    }
+}

@@ -1,0 +1,539 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<script src="js/libs/jquery-2.1.1.min.js" ></script>
+	<script src="js/libs/jquery-ui-1.10.4.min.js" ></script>
+	<script src="js/libs/underscore.js" ></script>
+	<script src="js/libs/backbone-1.1.2.js" ></script>
+	<script src="js/libs/marionette.min-2.1.0.js" ></script>
+	<script src="js/BoxView.js" ></script>
+	<script src="js/ItemViews.js" ></script>
+	<script src="js/commentViews.js" ></script>
+	<script src="js/wordpressInfosViews.js" ></script>
+    <script src="js/twitter.js" ></script>
+
+	<link href="css/reset.css" rel="stylesheet" type="text/css">
+	<link href="css/about.css" rel="stylesheet" type="text/css">
+	<link href="css/main.css" rel="stylesheet" type="text/css">
+	<link href="css/header.css" rel="stylesheet" type="text/css">
+	<link href="css/navigation.css" rel="stylesheet" type="text/css">
+	<link href="css/search.css" rel="stylesheet" type="text/css">
+	<link href="css/items.css" rel="stylesheet" type="text/css">
+    <link href="css/menu.css" rel="stylesheet" type="text/css">
+    <link href="css/wordpressInfos.css" rel="stylesheet" type="text/css">
+	<link href="css/itemsSpecial.css" rel="stylesheet" type="text/css">
+	<link href="css/box.css" rel="stylesheet" type="text/css">
+	<link href="css/tagsWindow.css" rel="stylesheet" type="text/css">
+	<link href="css/unknown.css" rel="stylesheet" type="text/css">
+	<link href="css/comments.css" rel="stylesheet" type="text/css">
+
+<script>
+$(document).ready(function(){
+
+	// ======================================
+	//	ROUTER
+	// ======================================
+
+    var Router = Backbone.Router.extend({
+        initialize: function(){ 
+            App.nav.show(new NavView());
+            if(window.wordpressInfos.userLogged){
+                App.wordpressInfos.show(new WordpressInfosView({template:"#wordpressInfosTemplate"}));
+            }else{
+                App.wordpressInfos.show(new WordpressInfosView({template:"#wordpressFormTemplate"}));
+            }
+            console.log('router initialized');
+        },
+        routes: {
+            "page/:query*id":"page",
+            "about":"about",
+            ":unknown":"unknown",
+            "/*":"home"
+        },
+        home:function(){
+            this.page("snowboardandski")
+        },
+        page:function(query,id){
+            if(!id){
+                $('#path').css('display','none');
+                $('#path').css('opacity',0);
+            }
+            //Check if collection exists
+            if(window['collections']['collection_'+query]){
+                var currentCollection = window['collections']['collection_'+query];
+                console.log('collection exists')
+                //Render Search view and tags defined in the config object
+                App.search.show(new SearchView({
+                    infos:currentCollection.infos,
+                    collection:currentCollection
+                }).render());
+
+                // Check if collection has already been fetched/loaded
+                // If yes: app.content.show collection
+                if(currentCollection.length>2){
+                    console.log('collection already loaded');
+
+                    App.content.show(new collectionView({
+                        infos:currentCollection.infos,
+                        collection:currentCollection
+                    }));
+                    //  Check if a video id is requested
+                    // If there is one, App.path.show the matching video model
+                    if(id){
+                        id = id.replace(/[^\d.]/g,'');
+                        var model = currentCollection.get(id);
+
+                        boxLayoutView = new BoxLayoutView();
+                        App.path.show(boxLayoutView);
+                        boxLayoutView.render();
+                        boxLayoutView.video.show(new BoxView({
+                                                    model:model,
+                                                    infos:currentCollection.infos
+                                                }));
+                    }
+                // If not: collection.fetch() and then app.content.show collection
+                }else{
+                    console.log('collection not loaded yet');
+
+                    currentCollection.fetch().done(function(){App.content.show(new collectionView({
+                            infos:currentCollection.infos,
+                            collection:currentCollection
+                        }));
+                        console.log('collection rendered successfully')
+                    //  Check if a video id is requested
+                    // If there is one, App.path.show the matching video model
+                        if(id){
+                            id = id.replace(/[^\d.]/g,'');
+                            var model = currentCollection.get(id);
+
+                            boxLayoutView = new BoxLayoutView();
+                            App.path.show(boxLayoutView);
+                            boxLayoutView.render();
+                            boxLayoutView.video.show(new BoxView({
+                                                        model:model,
+                                                        infos:currentCollection.infos
+                                                    }));                            
+                        }
+                    })
+                }
+            }else{
+                console.log('collection not found');
+                App.search.empty();
+                App.content.show(new ErrorView({query:query}));
+            }
+        },
+        about:function(){
+            App.content.show(new AboutView());
+        },
+        unknown:function(){
+            App.content.show(new UnknownView());
+        }
+    })
+
+
+	// ======================================
+	//	CONFIG
+	// ======================================
+	
+	/* 
+	Main config object: add as much object as there are libraries ready to be displayed
+	name : name of the folder
+	completeName : name that will be displayed in the nav list
+	tags : tags you want to display below the search bar
+	*/
+
+	window.config=[
+					{
+						name:"snowboardandski",
+						completeName:"Snowboard and Ski",
+						tags:[],
+						background:true
+					},
+					{
+						name:"golf",
+						completeName:"Golf",
+						tags:["Golf","Swing"],
+						background:true
+					}
+				];
+
+
+	//Initialize the collection object where collection will be stored
+	window['collections'] = [];
+
+
+	// ======================================
+	//	APP OBJECT
+	// ======================================
+
+	var App = new Backbone.Marionette.Application();
+	App.addRegions({
+		wordpressInfos: '#wordpressInfos',
+        header: '#header',		//title + subtitle region
+		nav: '#nav',			// navigation bar region	
+		search: '#search',		// search and tags region
+		content: '#content',	// items region
+		path: '#path'			// path region where the video and comments display
+	});
+
+	// When the App starts, load collections
+	App.addInitializer(function(options){
+		App.header.show(new HeaderView());
+		//Load each collections that are in the window.config object
+		_.each(window.config,function(value,index){
+
+			//Initialize Data collections for each window.config object
+			window['Collection_'+value.name]= window.standardCollection;
+			
+			window['collections']['collection_'+value.name]= new window['Collection_'+value.name]([],{
+								url:value.name+"/data.json",
+								infos:{
+									name:value.name,
+									completeName:value.completeName,
+									tags:value.tags,
+									url:value.name+"/data.json",
+									background:value.background
+									}
+								});
+		});
+		new Router();
+		Backbone.history.start();
+	});
+
+
+    // ======================================
+    //  COLLECTION
+    // ======================================
+
+	// Main collection, that sorts IDs decreasingly
+	window.standardCollection = Backbone.Collection.extend({
+		initialize: function(models, options) {
+    		_.extend (this, _.pick(options,'url','infos'));
+  		},
+  		comparator : function (model) {
+  			return -model.get("id");
+		}
+	});
+
+
+	// ======================================
+	//	VIEWS
+	// ======================================
+
+	// Header view
+	var HeaderView = Backbone.Marionette.ItemView.extend({
+	  	template: "#headerTemplate",
+	});
+
+	// Navigation view
+	var NavView = Backbone.Marionette.ItemView.extend({
+		template: "#navTemplate",
+	  	onRender:function(){
+	  		el = this.el
+	  		_.each(window.config, function(value,index){
+				$(el).find('ul').prepend('<li><a value="'+value.name+'" href="#page/'+value.name+'">'+value.completeName+'</a></li>')
+			});
+	  	}
+	});
+
+	// Search view and its events
+	var SearchView = Backbone.Marionette.ItemView.extend({
+		template : '#searchTemplate',
+	    events: {
+	        'keyup input#searchInput' : 'updateFilter',
+	        'click .tag':'addTag'
+	    },
+		initialize:function(options){
+			this.options = options;
+
+			this.templateHelpers = {};
+			//Add search tags if they have been provided in options.infos
+			var tags ='';
+			if(options.infos.tags){
+				_.each(options.infos.tags,function(value,index){
+				    tags+='<span value ="'+value+'" class="tag">'+value+'</span>';
+				})				
+			}
+			this.templateHelpers.tags = tags;
+			this.templateHelpers.completeName = options.infos.completeName;
+		},
+	    updateFilter:function(e){
+	    	//Get guery and filter collection
+	    	var words = $(e.target).val().toLowerCase();
+	    	var filtered = this.options.collection.filter(function(model){
+			    if(model.values().toString().toLowerCase().indexOf(words)!=-1){
+			    	return model;
+			    }
+	    	})
+			
+			//Render new collection
+	    	var FilteredCollection = window.standardCollection;
+	    	var filteredCollection = new FilteredCollection([],{
+	    										infos:this.options.infos,
+	    									});
+
+	    	filteredCollection.add(filtered);
+			App.content.show(new collectionView({
+				infos:this.options.infos,
+				collection:filteredCollection
+			}));
+	    },
+	    addTag:function(e){
+	    	var tag = $(e.target).attr('value');
+	    	if($('#searchInput').val()>1){
+	    		$('#searchInput').val($('#searchInput').val()+' '+tag);
+	    	}else{
+	    		$('#searchInput').val(tag)
+	    	}
+	    	$('#searchInput').keyup();
+	    }
+	});
+
+	// collection not found view
+	var ErrorView = Backbone.Marionette.ItemView.extend({
+	  	template: "#errorTemplate",
+	  	initialize:function(options){
+	  		this.templateHelpers={}
+	  		this.templateHelpers.error="Collection <u>"+options.query+"</u> does not exist.";
+	  	}
+	});
+
+	//404 not found page view
+	var UnknownView = Backbone.Marionette.ItemView.extend({
+	  	template: "#unknownTemplate",
+	  	onRender:function(){
+	  		App.search.empty();
+            App.path.empty();
+	  	}
+	});
+
+	//About view
+	var AboutView = Backbone.Marionette.ItemView.extend({
+	  template: "#aboutTemplate",
+	  onRender:function(){
+	  	    App.path.empty();
+            App.search.empty();
+
+            $('#path').css('display','none');
+            $('#path').css('opacity',0);
+
+        	$('#nav a').removeClass('active');
+        	$("#nav a[value='about']").addClass('active');
+	  }
+	});
+
+
+    //Get infos from wordpress
+    function wordpressInfos(){
+        return $.ajax({
+            url : "../infos.php",
+            dataType: "text",
+            success : function (data) {
+                data = $.parseHTML(data);
+                $('#hidden').html(data);   
+                window['wordpressInfos'] = jQuery.parseJSON($('#infos').html());
+                return window['wordpressInfos'];
+            }
+        });
+    }
+    wordpressInfos().then(function(i){
+        App.start();
+    });
+
+
+	wordpressInfos();
+})
+</script>
+
+</head>
+
+<body>
+
+    <div id="menu">
+        <div id="wordpressInfos"></div>
+        <a href="../thread_sport/">Articles</a>
+        <a href="../rdp/">Revue de presse</a>
+    </div>
+
+    <div id="header"></div>
+    <div id="nav"></div>
+    <div id="search"></div>
+    <div id="content"></div>
+    <div id="path"></div>
+
+    <div id="tagsWindow"></div>
+
+
+    <div id="hidden" style="display:none"></div>
+    <div id="iframe" style="display:none"></div>
+
+<!-- ============================== -->
+<!-- APP.header -->
+<!-- ============================== -->
+
+<!-- App.header Template -->
+<script type="text/template" id="headerTemplate" >
+	<p>Sports online</p>
+	<h1>plateforme vidéo</h1>
+</script>
+
+
+<!-- ============================== -->
+<!-- APP.nav -->
+<!-- ============================== -->
+
+<!-- App.Navigation Template -->
+<script type="text/template" id="navTemplate" >
+	<ul>
+		<li><a value="about" href="#about">À propos</a></li>
+	</ul>
+</script>
+
+
+<!-- ============================== -->
+<!-- APP.search -->
+<!-- ============================== -->
+
+<!-- App.Search Template -->
+<script type="text/template" id="searchTemplate" >
+	<h1><%=completeName%></h1>
+	<input id="searchInput"></input>
+	<div id="tagsPlaceholder"><%=tags%></div>
+</script>
+
+
+<!-- ============================== -->
+<!-- Error templates -->
+<!-- ============================== -->
+
+<!-- Collection not found Template -->
+<script type="text/template" id="errorTemplate" >
+	<h3 class="error" ><%=error%></h3>
+</script>
+
+<!-- 404 not found found Template -->
+<script type="text/template" id="unknownTemplate" >
+	<div class="unknown">
+		<h1>Error 404</h1>
+		<h3>This page does not exist</h3>
+	</div>
+</script>
+
+
+<!-- ============================== -->
+<!-- APP.content -->
+<!-- ============================== -->
+
+<!-- App.content's item Template -->
+<script type="text/template" id="itemTemplate" >
+	<a href="#page/<%-collection%>/<%-id%>" udate="<%-udate%>" pdate="<%-pdate%>"class="<%-recent%>">
+		<div class="item" id="item<%-id%>">
+			<div class="img">
+				<img src=" <%- img %>" />
+			</div>
+			<h2><%-titre%></h2>
+			<h2><%-date_upload%></h2>
+			<%=langue%>
+			<%=chaud%>
+		</div>
+	</a>
+</script>
+
+<!-- About Template -->
+<script type="text/template" id="aboutTemplate" >
+	<p class="about">Write whatever you want here
+	</p>
+</script>
+
+<!-- ============================== -->
+<!-- APP.path -->
+<!-- ============================== -->
+
+<!-- APP.path BoxLayoutView's Template -->
+<script id="boxTemplate" type="text/template">
+    <div id="video"></div>
+	<div id="comments"></div>
+</script>
+
+<!-- BoxLayoutView.video template (video + comment form) -->
+<script id="boxVideoTemplate" type="text/template">
+	<div id="random">
+		<p>Au hasard</p>
+	</div>
+
+	<div id="box">
+		<img class="close" src="imgs/close.png"/>
+		<div id="left">
+			<h2><%- title %> </h2>
+			<div class="video">
+				<iframe width="560" height="315" src="<%-url%>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen>
+				</iframe>
+			</div>
+			<div class="parts">
+				<%=parts%>
+			</div>
+		</div>
+		<div id="right">
+			<div id="nameBox">
+				<%=names%>
+			</div>
+			<p class="subtitle tagstitle"> Tags associés</p>
+			<div id="tagBox">
+				<%=tags%>
+			</div>
+
+			<a rel="nofollow" href="http://www.facebook.com/share.php?u=url&t=J&#39;aime&nbsp;cet&nbsp;article&nbsp;sur&nbsp;Modizy.com" onclick="return fbs_click()" target="_blank" class="demo-icon-facebook"><img src="imgs/icon_facebook.png"/></a>
+
+			<a target="_blank" href="https://twitter.com/share?text=Sur&nbsp;911Declassifie.com" class="demo-icon-twitter" data-lang="en"><img src="imgs/icon_twitter3.png"/></a>
+
+		</div>
+		<div class="boxError"><%=error%></div>
+	</div>
+
+	<div id="comment_form">
+		<textarea id="comment_field"></textarea>
+		<span id="sendComment" number="<%-id%>">Envoyer</span>
+		<span id='refresh' number="<%-id%>">Rafraîchir</span>
+		<div id="thumbs">
+		<img class='thumb' number="<%-id%>" id='thumbsup' src='imgs/thumbs_up.png' thumb='true' />
+		<img class='thumb' number="<%-id%>" id='thumbsdown' src='imgs/thumbs_down.png' thumb='false' />
+		</div>
+		<div id="allErrors">
+		</div>
+	</div>
+</script>
+
+
+<!-- BoxLayoutView.comments template (comments section)-->
+<script type="text/template" id="boxCommentsTemplate">
+	<div class="comment" id="comment<%-id%>">
+		<span>
+			<%-author%>
+		</span>
+		<span>
+			<%-date%>
+		</span>
+		<p>
+			<%-content%>	
+		</p>
+	</div>
+</script>
+
+<!-- Wordpress Infos template-->
+<script type="text/template" id="wordpressInfosTemplate">
+<div id="logBox"><h4><%=pseudo%> </h4></div>
+<span id="disconnect">Se déconnecter</span>
+</script>
+
+<!-- Wordpress Form template-->
+<script type="text/template" id="wordpressFormTemplate">
+    <div id="logBox">Vous n&rsquo;êtes pas connecté</div>
+    <input id="pseudoConnect">
+    <input type="password" id="passwordConnect">
+    <span id="sendButton">Envoyer</span>
+</script>
+
+
+
+
+</body>

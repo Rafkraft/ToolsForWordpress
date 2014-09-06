@@ -1,0 +1,20 @@
+body {
+
+    background-repeat:no-repeat;
+    -webkit-background-size: 100% auto;
+    -moz-background-size: 100% auto;
+    -o-background-size: 100% auto;
+    background-size: 100% auto;
+    background-position: center top;
+    background-attachment: fixed;
+    position: relative;
+    background: rgba(111,155,242,1);
+    background: rgba(111,155,242,1);
+    background: -moz-radial-gradient(center, ellipse cover, rgba(111,155,242,1) 0%, rgba(71,105,158,1) 100%);
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, , color-stop(0%, rgba(111,155,242,1)), color-stop(100%, rgba(71,105,158,1)));
+    background: -webkit-radial-gradient(center, ellipse cover, rgba(111,155,242,1) 0%, rgba(71,105,158,1) 100%);
+    background: -o-radial-gradient(center, ellipse cover, rgba(111,155,242,1) 0%, rgba(71,105,158,1) 100%);
+    background: -ms-radial-gradient(center, ellipse cover, rgba(111,155,242,1) 0%, rgba(71,105,158,1) 100%);
+    background: radial-gradient(ellipse at center, rgba(111,155,242,1) 0%, rgba(71,105,158,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6f9bf2', endColorstr='#47699e', GradientType=1 );
+}
