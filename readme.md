@@ -4,6 +4,10 @@ I developped two distinct tools to put in the wordpress root directory.
 
 ### /tv
 
+
+
+
+
 The /tv folder is a Backbone/Marionette.js driven application that allows you to display a custom video flow on your website, the video be add automatically thru cron jobs or others, or added manually, they can come from 3 differents platform for the moment: youtube, dailymotion and vimeo.
 
 The user will be able to see al the video, look for one in particular, and eventually like or comment the videos.
